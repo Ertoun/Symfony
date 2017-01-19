@@ -1,0 +1,4 @@
+services:
+#    perso_platform.example:
+#        class: Perso\PlatformBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

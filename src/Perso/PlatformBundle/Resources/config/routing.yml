@@ -1,0 +1,15 @@
+bye_world:
+    path:     /bye-world
+    defaults: { _controller: PersoPlatformBundle:Advert:bye }
+
+Perso_platform_home:
+    path:      /platform
+    defaults: { _controller: PersoPlatformBundle:Advert:index }
+
+Perso_platform_view:
+    path:      /platform/advert/{id}
+    defaults: { _controller: PersoPlatformBundle:Advert:view }
+
+Perso_platform_add:
+    path:      /platform/add
+    defaults: { _controller: PersoPlatformBundle:Advert:add }

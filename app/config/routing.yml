@@ -1,0 +1,3 @@
+perso_platform:
+    resource: "@PersoPlatformBundle/Resources/config/routing.yml"
+    prefix:   /
