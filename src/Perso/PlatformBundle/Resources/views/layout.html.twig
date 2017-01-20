@@ -1,0 +1,19 @@
+{# src/Perso/PlatformBundle/Resources/views/layout.html.twig #}
+
+{% extends "::layout.html.twig" %}
+
+{% block title %}
+  Annonces - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+  <h1>Lemonade</h1>
+
+  <hr>
+  <hr>
+
+  {% block Persoplatform_body %}
+  {% endblock %}
+
+{% endblock %}

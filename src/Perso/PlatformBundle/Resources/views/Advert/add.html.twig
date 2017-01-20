@@ -1,0 +1,27 @@
+{# src/Perso/PlatformBundle/Resources/views/Advert/add.html.twig #}
+
+{% extends "PersoPlatformBundle::layout.html.twig" %}
+
+{% block title %}
+  Ajouter une annonce - {{ parent() }}
+{% endblock %}
+
+{% block Persoplatform_body %}
+
+  <h2>Ajouter une annonce</h2>
+
+  {{ include("PersoPlatformBundle:Advert:form.html.twig") }}
+
+  <p>
+    Vous éditez une annonce déjà existante, merci de ne pas changer
+    l'esprit général de l'annonce déjà publiée.
+  </p>
+
+  <p>
+    <a href="{{ path('Perso_platform_view', {'id': advert.id}) }}" class="btn btn-default">
+      <i class="glyphicon glyphicon-chevron-left"></i>
+      Retour à l'annonce
+    </a>
+  </p>
+
+{% endblock %}
