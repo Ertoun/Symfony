@@ -3,13 +3,44 @@ bye_world:
     defaults: { _controller: PersoPlatformBundle:Advert:bye }
 
 Perso_platform_home:
-    path:      /platform
-    defaults: { _controller: PersoPlatformBundle:Advert:index }
+    path:      /{page}
+    defaults:
+        _controller: PersoPlatformBundle:Advert:index
+        page: 1
+    requirements:
+        page: \d*
 
 Perso_platform_view:
-    path:      /platform/advert/{id}
-    defaults: { _controller: PersoPlatformBundle:Advert:view }
+    path:      /advert/{id}
+    defaults:
+        _controller: PersoPlatformBundle:Advert:view
+    requirements:
+        id: \d+
 
 Perso_platform_add:
-    path:      /platform/add
-    defaults: { _controller: PersoPlatformBundle:Advert:add }
+    path:      /add
+    defaults:
+        _controller: PersoPlatformBundle:Advert:add
+
+Perso_platform_edit:
+    path:      /edit/{id}
+    defaults:
+        _controller: PersoPlatformBundle:Advert:edit
+    requirements:
+        id: \d+
+
+Perso_platform_delete:
+    path:      /delete/{id}Z
+    defaults:
+        _controller: PersoPlatformBundle:Advert:delete
+    requirements:
+        id: \d+
+
+Perso_platform_view_slug:
+    path:      /{year}/{slug}.{_format}
+    defaults:
+        _controller: PersoPlatformBundle:Advert:viewSlug
+        format:      html
+    requirements:
+        year:  \d{4}
+        format: html|xml

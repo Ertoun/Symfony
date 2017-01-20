@@ -1,18 +1,20 @@
-{# src/Perso/PlatformBundle/Resources/views/Advert/index.html.twig #}
-
 <!DOCTYPE html>
 <html>
   <head>
     <title>Bienvenue sur ma première page avec OpenClassrooms !</title>
   </head>
   <body>
-  <h1>Hello {{ nom }} !</h1>
+    <h1>Hello !</h1>
 
     <p>
       Le Hello World est un grand classique en programmation.
       Il signifie énormément, car cela veut dire que vous avez
       réussi à exécuter le programme pour accomplir une tâche simple :
-      <strong> zzzz !</strong>
+      afficher ce hello world !
     </p>
+    <p>
+      Lien vers l'annonce d'id 5 : <a href="{{ path('Perso_platform_view', {'id': 5}) }}">ici</a>
+    </p>
+    <footer> Responsable du site : {{ webmaster }}.</footer>
   </body>
 </html>
