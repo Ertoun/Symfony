@@ -46,3 +46,27 @@
 
 # Backup entities generated with doctrine:generate:entities command
 */Entity/*~
+
+
+/web/bundles/
+/app/bootstrap.php.cache
+/var/bootstrap.php.cache
+/app/cache/*
+/var/cache/*
+/app/config/parameters.yml
+/app/logs/*
+/var/logs/*
+!app/cache/.gitkeep
+!app/logs/.gitkeep
+/app/phpunit.xml
+/build/
+/vendor/
+/composer.phar
+/web/js
+/web/css
+/web/assets
+/web/bundles
+/web/uploads
+/app/var/sessions
+/var/sessions
+/node_modules

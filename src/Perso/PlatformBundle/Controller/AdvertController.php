@@ -73,7 +73,15 @@ class AdvertController extends Controller
     // Ajoutez cette méthode :
   public function addAction(Request $request)
   {
-     if ($request->isMethod('POST')) {
+    $antispam = $this->container->get('Perso_platform.antispam');
+
+    $text = '..........................';
+    if ($antispam->isSpam($text)) {
+        throw new \Exception("Detected as spam!");
+
+    }
+
+     else if ($request->isMethod('POST')) {
       // Ici, on s'occupera de la création et de la gestion du formulaire
 
       $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
@@ -124,4 +132,10 @@ class AdvertController extends Controller
       'listAdverts' => $listAdverts
     ));
     }
+
+
+  public function mailAction()
+  {
+      $mailer = $this->container->get('mailer');
+  }
 }
