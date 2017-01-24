@@ -28,6 +28,11 @@ class Advert
     private $id;
 
     /**
+     * @ORM\OneToOne(targetEntity="Perso\PlatformBundle\Entity\Image", cascade={"persist"})
+     */
+    private $image;
+
+    /**
      * @ORM\Column(name="published", type="boolean")
      */
     private $published = true;
@@ -189,5 +194,29 @@ class Advert
     public function getPublished()
     {
         return $this->published;
+    }
+
+    /**
+     * Set image
+     *
+     * @param \Perso\PlatformBundle\Entity\Image $image
+     *
+     * @return Advert
+     */
+    public function setImage(\Perso\PlatformBundle\Entity\Image $image = null)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return \Perso\PlatformBundle\Entity\Image
+     */
+    public function getImage()
+    {
+        return $this->image;
     }
 }

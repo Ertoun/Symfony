@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Perso\PlatformBundle\Entity\Advert;
+use Perso\PlatformBundle\Entity\Image;
 
 class AdvertController extends Controller
 {
@@ -26,7 +27,7 @@ class AdvertController extends Controller
                         'title'   => 'Recherche développpeur Symfony',
                         'id'      => 1,
                         'author'  => 'Alexandre',
-                        'content' => 'Nous recherchons un développeur Symfony débutant sur Lyon. Blabla…',
+                        'content' => 'Nous recherchons un développeur débutant sur Lyon. Blabla…',
                         'date'    => new \Datetime()),
                       array(
                         'title'   => 'Mission de webmaster',
@@ -46,17 +47,25 @@ class AdvertController extends Controller
     }
     public function viewAction($id, Request $request)
     {
-        $advert = array(
-        'title'   => 'Recherche développpeur Symfony2',
-      'id'      => $id,
-      'author'  => 'Alexandre',
-      'content' => 'Nous recherchons un développeur Symfony2 débutant sur Lyon. Blabla…',
-      'date'    => new \Datetime());
+       // On récupère le repository
+    $repository = $this->getDoctrine()
+      ->getManager()
+      ->getRepository('PersoPlatformBundle:Advert')
+    ;
 
-        return $this->render('PersoPlatformBundle:Advert:view.html.twig', array(
-      'advert' => $advert
-    ));
+    // On récupère l'entité correspondante à l'id $id
+    $advert = $repository->find($id);
+
+    // $advert est donc une instance de Perso\PlatformBundle\Entity\Advert
+    // ou null si l'id $id  n'existe pas, d'où ce if :
+    if (null === $advert) {
+      throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
     }
+
+    // Le render ne change pas, on passait avant un tableau, maintenant un objet
+    return $this->render('PersoPlatformBundle:Advert:view.html.twig', array(
+      'advert' => $advert
+    ));    }
 
     public function byeAction()
     {
@@ -78,9 +87,15 @@ class AdvertController extends Controller
     $advert = new Advert();
     $advert->setTitle('Recherche développeur Symfony.');
     $advert->setAuthor('Alexandre');
-    $advert->setContent("Nous recherchons un développeur Symfony débutant sur Lyon. Blabla…");
+    $advert->setContent("Nous recherchons un lemon Symfony débutant sur Lyon. Blabla…");
     // On peut ne pas définir ni la date ni la publication,
     // car ces attributs sont définis automatiquement dans le constructeur
+    //
+    $image = new image();
+    $image->setUrl("https://i.ytimg.com/vi/uNLnBYqOXUA/maxresdefault.jpg");
+    $image->setAlt('Duck game');
+
+    $advert->setImage($image);
 
     // On récupère l'EntityManager
     $em = $this->getDoctrine()->getManager();
@@ -125,6 +140,26 @@ class AdvertController extends Controller
     return $this->render('PersoPlatformBundle:Advert:edit.html.twig', array(
       'advert' => $advert
     ));
+  }
+
+  public function editImageAction($advertId)
+  {
+    $em = $this->getDoctrine()->getManager();
+
+    // On récupère l'annonce
+    $advert = $em->getRepository('PersoPlatformBundle:Advert')->find($advertId);
+
+    // On modifie l'URL de l'image par exemple
+    $advert->getImage()->setUrl('test.png');
+
+    // On n'a pas besoin de persister l'annonce ni l'image.
+    // Rappelez-vous, ces entités sont automatiquement persistées car
+    // on les a récupérées depuis Doctrine lui-même
+
+    // On déclenche la modification
+    $em->flush();
+
+    return new Response('OK');
   }
 
   public function deleteAction($id)

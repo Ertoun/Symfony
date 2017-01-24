@@ -4,6 +4,11 @@
 
 {% block title %}
   Lecture d'une annonce - {{ parent() }}
+
+  {% if advert.image is not null %}
+  <img src="{{ advert.image.url }}" style='height: 60px, width: 60px;' alt="{{ advert.image.alt }}">
+{% endif %}
+
 {% endblock %}
 
 {% block Persoplatform_body %}
