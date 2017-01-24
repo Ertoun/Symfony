@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Perso\PlatformBundle\Entity\Advert;
 
 class AdvertController extends Controller
 {
@@ -73,9 +74,26 @@ class AdvertController extends Controller
     // Ajoutez cette méthode :
   public function addAction(Request $request)
   {
+    // Création de l'entité
+    $advert = new Advert();
+    $advert->setTitle('Recherche développeur Symfony.');
+    $advert->setAuthor('Alexandre');
+    $advert->setContent("Nous recherchons un développeur Symfony débutant sur Lyon. Blabla…");
+    // On peut ne pas définir ni la date ni la publication,
+    // car ces attributs sont définis automatiquement dans le constructeur
+
+    // On récupère l'EntityManager
+    $em = $this->getDoctrine()->getManager();
+
+    // Étape 1 : On « persiste » l'entité
+    $em->persist($advert);
+
+    // Étape 2 : On « flush » tout ce qui a été persisté avant
+    $em->flush();
+
     $antispam = $this->container->get('Perso_platform.antispam');
 
-    $text = '..........................';
+    $text = '.....................................................';
     if ($antispam->isSpam($text)) {
         throw new \Exception("Detected as spam!");
 
@@ -87,7 +105,7 @@ class AdvertController extends Controller
       $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
 
       // Puis on redirige vers la page de visualisation de cettte annonce
-      return $this->redirectToRoute('Perso_platform_view', array('id' => 5));
+      return $this->redirectToRoute('Perso_platform_view', array('id' => $advert->getID()));
     }
 
     // Si on n'est pas en POST, alors on affiche le formulaire
