@@ -28,6 +28,16 @@ class Advert
     private $id;
 
     /**
+     * @ORM\OneToMany(targetEntity="Perso\PlatformBundle\Entity\Application", mappedBy="advert")
+     */
+    private $applications; // 's' pcq plusieurs candidatures pour une annonce.
+    /**
+     * @ORM\ManyToMany(targetEntity="Perso\PlatformBundle\Entity\Category", cascade={"persist"})
+     * @ORM\JoinTable(name="Perso_advert_category")
+     */
+    private $categories;
+
+    /**
      * @ORM\OneToOne(targetEntity="Perso\PlatformBundle\Entity\Image", cascade={"persist"})
      */
     private $image;
@@ -194,5 +204,58 @@ class Advert
     public function getPublished()
     {
         return $this->published;
+    }
+
+    /**
+     * Set image
+     *
+     * @param \Perso\PlatformBundle\Entity\Image $image
+     *
+     * @return Advert
+     */
+    public function setImage(\Perso\PlatformBundle\Entity\Image $image = null)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return \Perso\PlatformBundle\Entity\Image
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    public function removeCategory(Category $category)
+    {
+        $this->categories>removeElement($category);
+    }
+
+    /**
+     * Add category
+     *
+     * @param \Perso\PlatformBundle\Entity\Category $category
+     *
+     * @return Advert
+     */
+    public function addCategory(\Perso\PlatformBundle\Entity\Category $category)
+    {
+        $this->categories[] = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get categories
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCategories()
+    {
+        return $this->categories;
     }
 }

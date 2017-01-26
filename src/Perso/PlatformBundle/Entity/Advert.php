@@ -16,6 +16,7 @@ class Advert
     public function __construct()
     {
         $this->date = new \DateTime();
+        $this->applications = new ArrayCollection();
     }
 
     /**
@@ -26,6 +27,16 @@ class Advert
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Perso\PlatformBundle\Entity\Application", mappedBy="advert")
+     */
+    private $applications; // 's' pcq plusieurs candidatures pour une annonce.
+    /**
+     * @ORM\ManyToMany(targetEntity="Perso\PlatformBundle\Entity\Category", cascade={"persist"})
+     * @ORM\JoinTable(name="Perso_advert_category")
+     */
+    private $categories;
 
     /**
      * @ORM\OneToOne(targetEntity="Perso\PlatformBundle\Entity\Image", cascade={"persist"})
@@ -218,5 +229,70 @@ class Advert
     public function getImage()
     {
         return $this->image;
+    }
+
+    public function removeCategory(Category $category)
+    {
+        $this->categories>removeElement($category);
+    }
+
+    /**
+     * Add category
+     *
+     * @param \Perso\PlatformBundle\Entity\Category $category
+     *
+     * @return Advert
+     */
+    public function addCategory(\Perso\PlatformBundle\Entity\Category $category)
+    {
+        $this->categories[] = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get categories
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCategories()
+    {
+        return $this->categories;
+    }
+
+    /**
+     * Add application
+     *
+     * @param \Perso\PlatformBundle\Entity\Application $application
+     *
+     * @return Advert
+     */
+    public function addApplication(\Perso\PlatformBundle\Entity\Application $application)
+    {
+        $this->applications[] = $application;
+
+        $application->setAdvert($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove application
+     *
+     * @param \Perso\PlatformBundle\Entity\Application $application
+     */
+    public function removeApplication(\Perso\PlatformBundle\Entity\Application $application)
+    {
+        $this->applications->removeElement($application);
+    }
+
+    /**
+     * Get applications
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getApplications()
+    {
+        return $this->applications;
     }
 }
